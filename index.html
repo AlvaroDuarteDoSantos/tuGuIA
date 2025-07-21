@@ -33,13 +33,13 @@
             background: white;
             border-radius: 16px;
             box-shadow: 0 4px 20px rgba(0, 0, 0, 0.15);
-            padding: 20px;
             max-width: 90%;
             width: 400px;
             z-index: 1000;
             transition: all 0.3s ease;
             opacity: 0;
             transform: translateX(-50%) translateY(100px);
+            overflow: hidden;
         }
 
         .poi-card.active {
@@ -47,10 +47,34 @@
             transform: translateX(-50%) translateY(0);
         }
 
+        .poi-image {
+            width: 100%;
+            height: 200px;
+            object-fit: cover;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 80px;
+            color: white;
+        }
+
+        .poi-content {
+            padding: 20px;
+        }
+
         .poi-card h3 {
-            margin-bottom: 15px;
+            margin-bottom: 8px;
             color: #333;
-            font-size: 20px;
+            font-size: 22px;
+            font-weight: 600;
+        }
+
+        .poi-description {
+            color: #666;
+            font-size: 14px;
+            line-height: 1.5;
+            margin-bottom: 15px;
         }
 
         .distance-badge {
@@ -65,7 +89,7 @@
 
         .audio-button {
             width: 100%;
-            padding: 12px 20px;
+            padding: 14px 20px;
             margin-bottom: 10px;
             background: #007AFF;
             color: white;
@@ -94,6 +118,16 @@
             background: #34C759;
         }
 
+        .audio-button.playing .icon {
+            animation: pulse 1.5s infinite;
+        }
+
+        @keyframes pulse {
+            0% { transform: scale(1); }
+            50% { transform: scale(1.2); }
+            100% { transform: scale(1); }
+        }
+
         .audio-button.listened {
             background: #8E8E93;
             opacity: 0.8;
@@ -109,11 +143,12 @@
             font-size: 14px;
             color: #666;
             margin-bottom: 10px;
+            font-weight: 500;
         }
 
         .extra-audio-button {
             width: 100%;
-            padding: 10px 16px;
+            padding: 12px 16px;
             margin-bottom: 8px;
             background: #F2F2F7;
             color: #333;
@@ -123,10 +158,18 @@
             cursor: pointer;
             transition: all 0.2s;
             text-align: left;
+            display: flex;
+            align-items: center;
+            gap: 8px;
         }
 
         .extra-audio-button:hover {
             background: #E5E5EA;
+            transform: translateX(5px);
+        }
+
+        .extra-audio-button .icon {
+            font-size: 16px;
         }
 
         .location-error {
@@ -192,15 +235,19 @@
     
     <!-- Template para las tarjetas de POI -->
     <div id="poi-card-template" class="poi-card" style="display: none;">
-        <h3 id="poi-name"></h3>
-        <span class="distance-badge" id="poi-distance"></span>
-        <button class="audio-button" id="main-audio-btn">
-            <span>🔊</span>
-            <span>Escuchar introducción</span>
-        </button>
-        <div class="extra-audios" id="extra-audios-container" style="display: none;">
-            <h4>Saber más:</h4>
-            <div id="extra-audios-list"></div>
+        <div class="poi-image" id="poi-image">🏛️</div>
+        <div class="poi-content">
+            <h3 id="poi-name"></h3>
+            <p class="poi-description" id="poi-description"></p>
+            <span class="distance-badge" id="poi-distance"></span>
+            <button class="audio-button" id="main-audio-btn">
+                <span class="icon">🔊</span>
+                <span>Escuchar introducción</span>
+            </button>
+            <div class="extra-audios" id="extra-audios-container" style="display: none;">
+                <h4>🎧 Descubre más:</h4>
+                <div id="extra-audios-list"></div>
+            </div>
         </div>
     </div>
 
@@ -241,61 +288,18 @@
         // Cargar POIs desde el archivo JSON
         async function loadPOIs() {
             try {
-                // Para este MVP, vamos a simular los POIs ya que no tenemos el archivo JSON real
-                // En producción, descomentar la línea siguiente:
-                // const response = await fetch('pois.json');
-                // app.pois = await response.json();
-                
-                // POIs de ejemplo para demostración
-                app.pois = [
-                    {
-                        "id": "catedral_malaga",
-                        "nombre": "Catedral de Málaga",
-                        "lat": 36.7213,
-                        "lng": -4.4214,
-                        "audio_intro_url": "audios/catedral_intro.mp3",
-                        "audios_extra": [
-                            {
-                                "titulo": "¿Por qué le falta una torre?",
-                                "url": "audios/catedral_torre.mp3"
-                            },
-                            {
-                                "titulo": "Historia de su construcción",
-                                "url": "audios/catedral_historia.mp3"
-                            }
-                        ]
-                    },
-                    {
-                        "id": "alcazaba_malaga",
-                        "nombre": "Alcazaba de Málaga",
-                        "lat": 36.7211,
-                        "lng": -4.4163,
-                        "audio_intro_url": "audios/alcazaba_intro.mp3",
-                        "audios_extra": [
-                            {
-                                "titulo": "Arquitectura musulmana",
-                                "url": "audios/alcazaba_arquitectura.mp3"
-                            }
-                        ]
-                    },
-                    {
-                        "id": "teatro_romano",
-                        "nombre": "Teatro Romano",
-                        "lat": 36.7215,
-                        "lng": -4.4165,
-                        "audio_intro_url": "audios/teatro_intro.mp3",
-                        "audios_extra": [
-                            {
-                                "titulo": "Excavaciones arqueológicas",
-                                "url": "audios/teatro_excavaciones.mp3"
-                            }
-                        ]
-                    }
-                ];
+                // Cargar desde el archivo JSON real
+                const response = await fetch('pois.json');
+                app.pois = await response.json();
                 
                 displayPOIs();
             } catch (error) {
                 console.error('Error cargando POIs:', error);
+                // Si hay error, mostrar mensaje
+                const errorDiv = document.createElement('div');
+                errorDiv.className = 'location-error';
+                errorDiv.textContent = 'Error cargando puntos de interés';
+                document.body.appendChild(errorDiv);
             }
         }
 
@@ -399,6 +403,76 @@
             document.getElementById('poi-name').textContent = poi.nombre;
             updateDistance(distance);
             
+            // Añadir imagen o emoji según el POI
+            const imageDiv = document.getElementById('poi-image');
+            if (poi.imagen_url) {
+                imageDiv.innerHTML = `<img src="${poi.imagen_url}" alt="${poi.nombre}" style="width: 100%; height: 100%; object-fit: cover;">`;
+            } else {
+                // Emojis por defecto según el tipo de monumento
+                const emojis = {
+                    'catedral': '⛪',
+                    'alcazaba': '🏰',
+                    'teatro': '🎭',
+                    'castillo': '🏯',
+                    'plaza': '🐂',
+                    'mercado': '🛒',
+                    'museo': '🖼️',
+                    'jardin': '🌳',
+                    'puerto': '⚓',
+                    'calle': '🚶',
+                    'iglesia': '⛪',
+                    'parque': '🌲',
+                    'palacio': '🏛️',
+                    'banos': '🏖️',
+                    'cementerio': '🌹',
+                    'barrio': '🎨'
+                };
+                
+                let emoji = '🏛️'; // Por defecto
+                for (let key in emojis) {
+                    if (poi.id.toLowerCase().includes(key)) {
+                        emoji = emojis[key];
+                        break;
+                    }
+                }
+                imageDiv.innerHTML = emoji;
+                imageDiv.style.background = 'linear-gradient(135deg, #667eea 0%, #764ba2 100%)';
+            }
+            
+            // Añadir descripción si existe
+            const descDiv = document.getElementById('poi-description');
+            if (poi.descripcion) {
+                descDiv.textContent = poi.descripcion;
+                descDiv.style.display = 'block';
+            } else {
+                // Descripciones por defecto
+                const descripciones = {
+                    'catedral_malaga': 'Impresionante catedral renacentista conocida como "La Manquita" por su torre inacabada.',
+                    'alcazaba_malaga': 'Fortaleza palatina musulmana del siglo XI con impresionantes vistas de la ciudad.',
+                    'teatro_romano': 'Teatro del siglo I a.C. descubierto en 1951, testigo de la Málaga romana.',
+                    'castillo_gibralfaro': 'Castillo del siglo XIV que corona la ciudad con las mejores vistas panorámicas.',
+                    'plaza_toros': 'Plaza de estilo neomudéjar de 1876, conocida como La Malagueta.',
+                    'mercado_central': 'Mercado histórico en un edificio del siglo XIV con puerta nazarí original.',
+                    'museo_picasso': 'Casa natal del genio malagueño con más de 200 obras del artista.',
+                    'jardin_botanico': 'Jardín histórico-artístico con más de 150 años y especies de todo el mundo.',
+                    'puerto_malaga': 'Puerto milenario renovado con el moderno Muelle Uno y el faro de La Farola.',
+                    'centro_pompidou': 'Primera sede del Centre Pompidou fuera de Francia, en el colorido Cubo.',
+                    'museo_carmen_thyssen': 'Palacio del siglo XVI con la mejor colección de pintura andaluza del XIX.',
+                    'calle_larios': 'La calle más emblemática de Málaga, corazón comercial de la ciudad.',
+                    'iglesia_santiago': 'Iglesia mudéjar del siglo XV donde fue bautizado Pablo Picasso.',
+                    'parque_malaga': 'Jardín botánico centenario con especies subtropicales únicas en Europa.',
+                    'palacio_aduana': 'Imponente palacio neoclásico que alberga el Museo de Málaga.',
+                    'banos_carmen': 'Histórico balneario del siglo XX, símbolo de la Málaga marinera.',
+                    'cementerio_ingles': 'Primer cementerio protestante de España, jardín romántico junto al mar.',
+                    'museo_automovilistico': 'Antigua tabacalera con colección única de coches clásicos y moda.',
+                    'soho_malaga': 'Barrio del arte urbano con murales de artistas internacionales.',
+                    'casa_natal_picasso': 'Casa donde nació Picasso en 1881, en la histórica Plaza de la Merced.'
+                };
+                
+                descDiv.textContent = descripciones[poi.id] || 'Descubre la historia de este emblemático lugar de Málaga.';
+                descDiv.style.display = 'block';
+            }
+            
             // Configurar botón principal
             const mainBtn = document.getElementById('main-audio-btn');
             mainBtn.onclick = () => playAudio(poi.audio_intro_url, mainBtn);
@@ -417,7 +491,7 @@
                 poi.audios_extra.forEach(audio => {
                     const btn = document.createElement('button');
                     btn.className = 'extra-audio-button';
-                    btn.textContent = audio.titulo;
+                    btn.innerHTML = `<span class="icon">▶️</span><span>${audio.titulo}</span>`;
                     btn.onclick = () => playAudio(audio.url, btn);
                     
                     if (app.listenedAudios.has(audio.url)) {
