@@ -1,0 +1,548 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Audio Tours Interactivos</title>
+    
+    <!-- Leaflet CSS -->
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
+    
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            overflow: hidden;
+        }
+
+        #map {
+            height: 100vh;
+            width: 100%;
+        }
+
+        .poi-card {
+            position: fixed;
+            bottom: 20px;
+            left: 50%;
+            transform: translateX(-50%);
+            background: white;
+            border-radius: 16px;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.15);
+            padding: 20px;
+            max-width: 90%;
+            width: 400px;
+            z-index: 1000;
+            transition: all 0.3s ease;
+            opacity: 0;
+            transform: translateX(-50%) translateY(100px);
+        }
+
+        .poi-card.active {
+            opacity: 1;
+            transform: translateX(-50%) translateY(0);
+        }
+
+        .poi-card h3 {
+            margin-bottom: 15px;
+            color: #333;
+            font-size: 20px;
+        }
+
+        .distance-badge {
+            display: inline-block;
+            background: #f0f0f0;
+            padding: 4px 12px;
+            border-radius: 20px;
+            font-size: 13px;
+            color: #666;
+            margin-bottom: 15px;
+        }
+
+        .audio-button {
+            width: 100%;
+            padding: 12px 20px;
+            margin-bottom: 10px;
+            background: #007AFF;
+            color: white;
+            border: none;
+            border-radius: 10px;
+            font-size: 16px;
+            font-weight: 500;
+            cursor: pointer;
+            transition: all 0.2s;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+        }
+
+        .audio-button:hover {
+            background: #0066CC;
+            transform: translateY(-1px);
+        }
+
+        .audio-button:active {
+            transform: translateY(0);
+        }
+
+        .audio-button.playing {
+            background: #34C759;
+        }
+
+        .audio-button.listened {
+            background: #8E8E93;
+            opacity: 0.8;
+        }
+
+        .extra-audios {
+            margin-top: 15px;
+            padding-top: 15px;
+            border-top: 1px solid #eee;
+        }
+
+        .extra-audios h4 {
+            font-size: 14px;
+            color: #666;
+            margin-bottom: 10px;
+        }
+
+        .extra-audio-button {
+            width: 100%;
+            padding: 10px 16px;
+            margin-bottom: 8px;
+            background: #F2F2F7;
+            color: #333;
+            border: none;
+            border-radius: 8px;
+            font-size: 14px;
+            cursor: pointer;
+            transition: all 0.2s;
+            text-align: left;
+        }
+
+        .extra-audio-button:hover {
+            background: #E5E5EA;
+        }
+
+        .location-error {
+            position: fixed;
+            top: 20px;
+            left: 50%;
+            transform: translateX(-50%);
+            background: #FF3B30;
+            color: white;
+            padding: 12px 24px;
+            border-radius: 8px;
+            z-index: 1001;
+        }
+
+        .loading {
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            background: white;
+            padding: 20px 40px;
+            border-radius: 12px;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+            z-index: 1001;
+        }
+
+        /* Icono personalizado para POIs */
+        .poi-marker {
+            background: #007AFF;
+            border-radius: 50%;
+            width: 40px;
+            height: 40px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-size: 20px;
+            box-shadow: 0 2px 10px rgba(0, 122, 255, 0.3);
+        }
+
+        /* Responsive */
+        @media (max-width: 480px) {
+            .poi-card {
+                bottom: 10px;
+                padding: 16px;
+                width: calc(100% - 20px);
+            }
+            
+            .poi-card h3 {
+                font-size: 18px;
+            }
+            
+            .audio-button {
+                font-size: 15px;
+                padding: 10px 16px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div id="map"></div>
+    <div id="loading" class="loading">Cargando mapa y ubicación...</div>
+    
+    <!-- Template para las tarjetas de POI -->
+    <div id="poi-card-template" class="poi-card" style="display: none;">
+        <h3 id="poi-name"></h3>
+        <span class="distance-badge" id="poi-distance"></span>
+        <button class="audio-button" id="main-audio-btn">
+            <span>🔊</span>
+            <span>Escuchar introducción</span>
+        </button>
+        <div class="extra-audios" id="extra-audios-container" style="display: none;">
+            <h4>Saber más:</h4>
+            <div id="extra-audios-list"></div>
+        </div>
+    </div>
+
+    <!-- Leaflet JS -->
+    <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+    
+    <script>
+        // Estado global de la aplicación
+        const app = {
+            map: null,
+            userMarker: null,
+            poiMarkers: [],
+            pois: [],
+            currentPOI: null,
+            currentAudio: null,
+            listenedAudios: new Set(),
+            userLocation: null,
+            watchId: null,
+            activationRadius: 30 // metros
+        };
+
+        // Función para calcular distancia entre dos puntos (Haversine)
+        function calculateDistance(lat1, lon1, lat2, lon2) {
+            const R = 6371e3; // Radio de la Tierra en metros
+            const φ1 = lat1 * Math.PI / 180;
+            const φ2 = lat2 * Math.PI / 180;
+            const Δφ = (lat2 - lat1) * Math.PI / 180;
+            const Δλ = (lon2 - lon1) * Math.PI / 180;
+
+            const a = Math.sin(Δφ/2) * Math.sin(Δφ/2) +
+                    Math.cos(φ1) * Math.cos(φ2) *
+                    Math.sin(Δλ/2) * Math.sin(Δλ/2);
+            const c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1-a));
+
+            return R * c; // Distancia en metros
+        }
+
+        // Cargar POIs desde el archivo JSON
+        async function loadPOIs() {
+            try {
+                // Para este MVP, vamos a simular los POIs ya que no tenemos el archivo JSON real
+                // En producción, descomentar la línea siguiente:
+                // const response = await fetch('pois.json');
+                // app.pois = await response.json();
+                
+                // POIs de ejemplo para demostración
+                app.pois = [
+                    {
+                        "id": "catedral_malaga",
+                        "nombre": "Catedral de Málaga",
+                        "lat": 36.7213,
+                        "lng": -4.4214,
+                        "audio_intro_url": "audios/catedral_intro.mp3",
+                        "audios_extra": [
+                            {
+                                "titulo": "¿Por qué le falta una torre?",
+                                "url": "audios/catedral_torre.mp3"
+                            },
+                            {
+                                "titulo": "Historia de su construcción",
+                                "url": "audios/catedral_historia.mp3"
+                            }
+                        ]
+                    },
+                    {
+                        "id": "alcazaba_malaga",
+                        "nombre": "Alcazaba de Málaga",
+                        "lat": 36.7211,
+                        "lng": -4.4163,
+                        "audio_intro_url": "audios/alcazaba_intro.mp3",
+                        "audios_extra": [
+                            {
+                                "titulo": "Arquitectura musulmana",
+                                "url": "audios/alcazaba_arquitectura.mp3"
+                            }
+                        ]
+                    },
+                    {
+                        "id": "teatro_romano",
+                        "nombre": "Teatro Romano",
+                        "lat": 36.7215,
+                        "lng": -4.4165,
+                        "audio_intro_url": "audios/teatro_intro.mp3",
+                        "audios_extra": [
+                            {
+                                "titulo": "Excavaciones arqueológicas",
+                                "url": "audios/teatro_excavaciones.mp3"
+                            }
+                        ]
+                    }
+                ];
+                
+                displayPOIs();
+            } catch (error) {
+                console.error('Error cargando POIs:', error);
+            }
+        }
+
+        // Mostrar POIs en el mapa
+        function displayPOIs() {
+            app.pois.forEach(poi => {
+                const icon = L.divIcon({
+                    className: 'custom-div-icon',
+                    html: `<div class="poi-marker">🎧</div>`,
+                    iconSize: [40, 40],
+                    iconAnchor: [20, 20]
+                });
+
+                const marker = L.marker([poi.lat, poi.lng], { icon })
+                    .addTo(app.map)
+                    .bindPopup(`<b>${poi.nombre}</b>`);
+                
+                app.poiMarkers.push({ marker, poi });
+            });
+        }
+
+        // Inicializar el mapa
+        function initMap() {
+            // Crear el mapa centrado en Málaga (por defecto)
+            app.map = L.map('map').setView([36.7213, -4.4214], 16);
+
+            // Añadir capa de tiles
+            L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+                maxZoom: 19,
+                attribution: '© OpenStreetMap contributors'
+            }).addTo(app.map);
+
+            // Cargar POIs
+            loadPOIs();
+        }
+
+        // Actualizar ubicación del usuario
+        function updateUserLocation(position) {
+            const { latitude, longitude } = position.coords;
+            app.userLocation = { lat: latitude, lng: longitude };
+
+            // Crear o actualizar marcador del usuario
+            if (!app.userMarker) {
+                const userIcon = L.divIcon({
+                    className: 'custom-div-icon',
+                    html: `<div style="background: #007AFF; border: 3px solid white; border-radius: 50%; width: 20px; height: 20px; box-shadow: 0 2px 10px rgba(0,0,0,0.3);"></div>`,
+                    iconSize: [20, 20],
+                    iconAnchor: [10, 10]
+                });
+
+                app.userMarker = L.marker([latitude, longitude], { icon: userIcon })
+                    .addTo(app.map)
+                    .bindPopup('Tu ubicación');
+                
+                // Centrar el mapa en la ubicación del usuario la primera vez
+                app.map.setView([latitude, longitude], 17);
+            } else {
+                app.userMarker.setLatLng([latitude, longitude]);
+            }
+
+            // Verificar proximidad a POIs
+            checkProximityToPOIs();
+        }
+
+        // Verificar proximidad a POIs
+        function checkProximityToPOIs() {
+            if (!app.userLocation) return;
+
+            let closestPOI = null;
+            let closestDistance = Infinity;
+
+            app.pois.forEach(poi => {
+                const distance = calculateDistance(
+                    app.userLocation.lat,
+                    app.userLocation.lng,
+                    poi.lat,
+                    poi.lng
+                );
+
+                if (distance < closestDistance && distance <= app.activationRadius) {
+                    closestPOI = poi;
+                    closestDistance = distance;
+                }
+            });
+
+            if (closestPOI && closestPOI.id !== app.currentPOI?.id) {
+                showPOICard(closestPOI, closestDistance);
+            } else if (!closestPOI && app.currentPOI) {
+                hidePOICard();
+            } else if (closestPOI && app.currentPOI) {
+                // Actualizar distancia
+                updateDistance(closestDistance);
+            }
+        }
+
+        // Mostrar tarjeta de POI
+        function showPOICard(poi, distance) {
+            app.currentPOI = poi;
+            
+            const card = document.getElementById('poi-card-template');
+            document.getElementById('poi-name').textContent = poi.nombre;
+            updateDistance(distance);
+            
+            // Configurar botón principal
+            const mainBtn = document.getElementById('main-audio-btn');
+            mainBtn.onclick = () => playAudio(poi.audio_intro_url, mainBtn);
+            
+            // Verificar si ya se escuchó
+            if (app.listenedAudios.has(poi.audio_intro_url)) {
+                mainBtn.classList.add('listened');
+            }
+            
+            // Configurar audios extra
+            if (poi.audios_extra && poi.audios_extra.length > 0) {
+                const container = document.getElementById('extra-audios-container');
+                const list = document.getElementById('extra-audios-list');
+                
+                list.innerHTML = '';
+                poi.audios_extra.forEach(audio => {
+                    const btn = document.createElement('button');
+                    btn.className = 'extra-audio-button';
+                    btn.textContent = audio.titulo;
+                    btn.onclick = () => playAudio(audio.url, btn);
+                    
+                    if (app.listenedAudios.has(audio.url)) {
+                        btn.classList.add('listened');
+                    }
+                    
+                    list.appendChild(btn);
+                });
+                
+                container.style.display = 'block';
+            } else {
+                document.getElementById('extra-audios-container').style.display = 'none';
+            }
+            
+            card.style.display = 'block';
+            setTimeout(() => card.classList.add('active'), 10);
+        }
+
+        // Actualizar distancia mostrada
+        function updateDistance(distance) {
+            const badge = document.getElementById('poi-distance');
+            badge.textContent = `A ${Math.round(distance)} metros`;
+        }
+
+        // Ocultar tarjeta de POI
+        function hidePOICard() {
+            const card = document.getElementById('poi-card-template');
+            card.classList.remove('active');
+            setTimeout(() => {
+                card.style.display = 'none';
+                app.currentPOI = null;
+            }, 300);
+        }
+
+        // Reproducir audio
+        function playAudio(url, button) {
+            // Si hay un audio reproduciéndose, detenerlo
+            if (app.currentAudio) {
+                app.currentAudio.pause();
+                app.currentAudio = null;
+                document.querySelectorAll('.audio-button, .extra-audio-button').forEach(btn => {
+                    btn.classList.remove('playing');
+                });
+            }
+            
+            // Crear nuevo audio
+            app.currentAudio = new Audio(url);
+            button.classList.add('playing');
+            
+            // Marcar como escuchado
+            app.listenedAudios.add(url);
+            
+            app.currentAudio.play().catch(error => {
+                console.error('Error reproduciendo audio:', error);
+                alert('No se pudo reproducir el audio. Asegúrate de que el archivo existe.');
+                button.classList.remove('playing');
+            });
+            
+            app.currentAudio.onended = () => {
+                button.classList.remove('playing');
+                button.classList.add('listened');
+                app.currentAudio = null;
+            };
+        }
+
+        // Manejar errores de geolocalización
+        function handleLocationError(error) {
+            document.getElementById('loading').style.display = 'none';
+            
+            let message = 'Error obteniendo ubicación';
+            switch(error.code) {
+                case error.PERMISSION_DENIED:
+                    message = 'Permisos de ubicación denegados. Por favor, actívalos en tu navegador.';
+                    break;
+                case error.POSITION_UNAVAILABLE:
+                    message = 'Ubicación no disponible';
+                    break;
+                case error.TIMEOUT:
+                    message = 'Tiempo de espera agotado';
+                    break;
+            }
+            
+            const errorDiv = document.createElement('div');
+            errorDiv.className = 'location-error';
+            errorDiv.textContent = message;
+            document.body.appendChild(errorDiv);
+            
+            setTimeout(() => errorDiv.remove(), 5000);
+        }
+
+        // Inicializar aplicación
+        function init() {
+            initMap();
+            
+            // Solicitar ubicación del usuario
+            if ('geolocation' in navigator) {
+                app.watchId = navigator.geolocation.watchPosition(
+                    position => {
+                        document.getElementById('loading').style.display = 'none';
+                        updateUserLocation(position);
+                    },
+                    handleLocationError,
+                    {
+                        enableHighAccuracy: true,
+                        timeout: 5000,
+                        maximumAge: 0
+                    }
+                );
+            } else {
+                document.getElementById('loading').textContent = 'Geolocalización no soportada';
+            }
+        }
+
+        // Limpiar al salir
+        window.addEventListener('beforeunload', () => {
+            if (app.watchId) {
+                navigator.geolocation.clearWatch(app.watchId);
+            }
+            if (app.currentAudio) {
+                app.currentAudio.pause();
+            }
+        });
+
+        // Iniciar cuando el DOM esté listo
+        document.addEventListener('DOMContentLoaded', init);
+    </script>
+</body>
+</html>
