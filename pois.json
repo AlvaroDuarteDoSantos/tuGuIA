@@ -1,0 +1,358 @@
+[
+  {
+    "id": "catedral_malaga",
+    "nombre": "Catedral de Málaga - La Manquita",
+    "lat": 36.7201,
+    "lng": -4.4203,
+    "audio_intro_url": "audios/catedral_intro.mp3",
+    "audios_extra": [
+      {
+        "titulo": "¿Por qué le falta una torre?",
+        "url": "audios/catedral_torre.mp3"
+      },
+      {
+        "titulo": "Historia de su construcción",
+        "url": "audios/catedral_historia.mp3"
+      },
+      {
+        "titulo": "El coro y las vidrieras",
+        "url": "audios/catedral_coro.mp3"
+      }
+    ]
+  },
+  {
+    "id": "alcazaba_malaga",
+    "nombre": "Alcazaba de Málaga",
+    "lat": 36.7211,
+    "lng": -4.4163,
+    "audio_intro_url": "audios/alcazaba_intro.mp3",
+    "audios_extra": [
+      {
+        "titulo": "Arquitectura musulmana",
+        "url": "audios/alcazaba_arquitectura.mp3"
+      },
+      {
+        "titulo": "Los palacios nazaríes",
+        "url": "audios/alcazaba_palacios.mp3"
+      },
+      {
+        "titulo": "Vistas de la ciudad",
+        "url": "audios/alcazaba_vistas.mp3"
+      }
+    ]
+  },
+  {
+    "id": "teatro_romano",
+    "nombre": "Teatro Romano",
+    "lat": 36.7216,
+    "lng": -4.4170,
+    "audio_intro_url": "audios/teatro_intro.mp3",
+    "audios_extra": [
+      {
+        "titulo": "Descubrimiento en 1951",
+        "url": "audios/teatro_descubrimiento.mp3"
+      },
+      {
+        "titulo": "Espectáculos en la antigüedad",
+        "url": "audios/teatro_espectaculos.mp3"
+      }
+    ]
+  },
+  {
+    "id": "castillo_gibralfaro",
+    "nombre": "Castillo de Gibralfaro",
+    "lat": 36.7234,
+    "lng": -4.4098,
+    "audio_intro_url": "audios/gibralfaro_intro.mp3",
+    "audios_extra": [
+      {
+        "titulo": "El asedio de 1487",
+        "url": "audios/gibralfaro_asedio.mp3"
+      },
+      {
+        "titulo": "La muralla y sus torres",
+        "url": "audios/gibralfaro_muralla.mp3"
+      }
+    ]
+  },
+  {
+    "id": "plaza_toros",
+    "nombre": "Plaza de Toros La Malagueta",
+    "lat": 36.7191,
+    "lng": -4.4101,
+    "audio_intro_url": "audios/plaza_toros_intro.mp3",
+    "audios_extra": [
+      {
+        "titulo": "Arquitectura neomudéjar",
+        "url": "audios/plaza_toros_arquitectura.mp3"
+      },
+      {
+        "titulo": "Grandes toreros malagueños",
+        "url": "audios/plaza_toros_toreros.mp3"
+      }
+    ]
+  },
+  {
+    "id": "mercado_central",
+    "nombre": "Mercado Central de Atarazanas",
+    "lat": 36.7181,
+    "lng": -4.4242,
+    "audio_intro_url": "audios/mercado_intro.mp3",
+    "audios_extra": [
+      {
+        "titulo": "Historia del edificio nazarí",
+        "url": "audios/mercado_historia.mp3"
+      },
+      {
+        "titulo": "Gastronomía malagueña",
+        "url": "audios/mercado_gastronomia.mp3"
+      }
+    ]
+  },
+  {
+    "id": "museo_picasso",
+    "nombre": "Museo Picasso Málaga",
+    "lat": 36.7213,
+    "lng": -4.4185,
+    "audio_intro_url": "audios/museo_picasso_intro.mp3",
+    "audios_extra": [
+      {
+        "titulo": "La infancia de Picasso en Málaga",
+        "url": "audios/picasso_infancia.mp3"
+      },
+      {
+        "titulo": "Palacio de Buenavista",
+        "url": "audios/picasso_palacio.mp3"
+      },
+      {
+        "titulo": "Las obras más destacadas",
+        "url": "audios/picasso_obras.mp3"
+      }
+    ]
+  },
+  {
+    "id": "casa_natal_picasso",
+    "nombre": "Casa Natal de Picasso",
+    "lat": 36.7224,
+    "lng": -4.4183,
+    "audio_intro_url": "audios/casa_natal_intro.mp3",
+    "audios_extra": [
+      {
+        "titulo": "La familia Ruiz Picasso",
+        "url": "audios/casa_natal_familia.mp3"
+      },
+      {
+        "titulo": "Plaza de la Merced",
+        "url": "audios/casa_natal_plaza.mp3"
+      }
+    ]
+  },
+  {
+    "id": "jardin_botanico",
+    "nombre": "Jardín Botánico La Concepción",
+    "lat": 36.7629,
+    "lng": -4.4297,
+    "audio_intro_url": "audios/jardin_intro.mp3",
+    "audios_extra": [
+      {
+        "titulo": "Historia romántica del jardín",
+        "url": "audios/jardin_historia.mp3"
+      },
+      {
+        "titulo": "Especies exóticas",
+        "url": "audios/jardin_especies.mp3"
+      }
+    ]
+  },
+  {
+    "id": "puerto_malaga",
+    "nombre": "Puerto de Málaga - Muelle Uno",
+    "lat": 36.7178,
+    "lng": -4.4156,
+    "audio_intro_url": "audios/puerto_intro.mp3",
+    "audios_extra": [
+      {
+        "titulo": "Historia del puerto fenicio",
+        "url": "audios/puerto_historia.mp3"
+      },
+      {
+        "titulo": "El faro de La Farola",
+        "url": "audios/puerto_farola.mp3"
+      }
+    ]
+  },
+  {
+    "id": "centro_pompidou",
+    "nombre": "Centre Pompidou Málaga",
+    "lat": 36.7193,
+    "lng": -4.4041,
+    "audio_intro_url": "audios/pompidou_intro.mp3",
+    "audios_extra": [
+      {
+        "titulo": "El Cubo de colores",
+        "url": "audios/pompidou_cubo.mp3"
+      },
+      {
+        "titulo": "Arte contemporáneo",
+        "url": "audios/pompidou_arte.mp3"
+      }
+    ]
+  },
+  {
+    "id": "museo_carmen_thyssen",
+    "nombre": "Museo Carmen Thyssen",
+    "lat": 36.7212,
+    "lng": -4.4230,
+    "audio_intro_url": "audios/thyssen_intro.mp3",
+    "audios_extra": [
+      {
+        "titulo": "Palacio de Villalón",
+        "url": "audios/thyssen_palacio.mp3"
+      },
+      {
+        "titulo": "Pintura andaluza del XIX",
+        "url": "audios/thyssen_pintura.mp3"
+      }
+    ]
+  },
+  {
+    "id": "calle_larios",
+    "nombre": "Calle Marqués de Larios",
+    "lat": 36.7187,
+    "lng": -4.4211,
+    "audio_intro_url": "audios/larios_intro.mp3",
+    "audios_extra": [
+      {
+        "titulo": "Historia de la familia Larios",
+        "url": "audios/larios_familia.mp3"
+      },
+      {
+        "titulo": "Arquitectura del siglo XIX",
+        "url": "audios/larios_arquitectura.mp3"
+      },
+      {
+        "titulo": "Las luces de Navidad",
+        "url": "audios/larios_navidad.mp3"
+      }
+    ]
+  },
+  {
+    "id": "iglesia_santiago",
+    "nombre": "Iglesia de Santiago",
+    "lat": 36.7227,
+    "lng": -4.4217,
+    "audio_intro_url": "audios/santiago_intro.mp3",
+    "audios_extra": [
+      {
+        "titulo": "Donde fue bautizado Picasso",
+        "url": "audios/santiago_picasso.mp3"
+      },
+      {
+        "titulo": "Arte mudéjar",
+        "url": "audios/santiago_mudejar.mp3"
+      }
+    ]
+  },
+  {
+    "id": "parque_malaga",
+    "nombre": "Parque de Málaga",
+    "lat": 36.7196,
+    "lng": -4.4123,
+    "audio_intro_url": "audios/parque_intro.mp3",
+    "audios_extra": [
+      {
+        "titulo": "Jardín subtropical único",
+        "url": "audios/parque_subtropical.mp3"
+      },
+      {
+        "titulo": "Esculturas y monumentos",
+        "url": "audios/parque_esculturas.mp3"
+      }
+    ]
+  },
+  {
+    "id": "palacio_aduana",
+    "nombre": "Palacio de la Aduana - Museo de Málaga",
+    "lat": 36.7210,
+    "lng": -4.4145,
+    "audio_intro_url": "audios/aduana_intro.mp3",
+    "audios_extra": [
+      {
+        "titulo": "Arquitectura neoclásica",
+        "url": "audios/aduana_arquitectura.mp3"
+      },
+      {
+        "titulo": "Colecciones arqueológicas",
+        "url": "audios/aduana_arqueologia.mp3"
+      }
+    ]
+  },
+  {
+    "id": "banos_carmen",
+    "nombre": "Baños del Carmen",
+    "lat": 36.7176,
+    "lng": -4.3889,
+    "audio_intro_url": "audios/banos_carmen_intro.mp3",
+    "audios_extra": [
+      {
+        "titulo": "Balneario del siglo XX",
+        "url": "audios/banos_carmen_historia.mp3"
+      },
+      {
+        "titulo": "La Málaga de veraneo",
+        "url": "audios/banos_carmen_veraneo.mp3"
+      }
+    ]
+  },
+  {
+    "id": "cementerio_ingles",
+    "nombre": "Cementerio Inglés",
+    "lat": 36.7145,
+    "lng": -4.4282,
+    "audio_intro_url": "audios/cementerio_ingles_intro.mp3",
+    "audios_extra": [
+      {
+        "titulo": "Historia de los protestantes",
+        "url": "audios/cementerio_protestantes.mp3"
+      },
+      {
+        "titulo": "Jardín botánico histórico",
+        "url": "audios/cementerio_jardin.mp3"
+      }
+    ]
+  },
+  {
+    "id": "museo_automovilistico",
+    "nombre": "Museo Automovilístico",
+    "lat": 36.6892,
+    "lng": -4.4456,
+    "audio_intro_url": "audios/museo_autos_intro.mp3",
+    "audios_extra": [
+      {
+        "titulo": "Antigua Tabacalera",
+        "url": "audios/museo_autos_tabacalera.mp3"
+      },
+      {
+        "titulo": "Colección de alta costura",
+        "url": "audios/museo_autos_moda.mp3"
+      }
+    ]
+  },
+  {
+    "id": "soho_malaga",
+    "nombre": "Barrio del Soho - Arte Urbano",
+    "lat": 36.7152,
+    "lng": -4.4254,
+    "audio_intro_url": "audios/soho_intro.mp3",
+    "audios_extra": [
+      {
+        "titulo": "MAUS - Málaga Arte Urbano",
+        "url": "audios/soho_maus.mp3"
+      },
+      {
+        "titulo": "Grafitis y murales famosos",
+        "url": "audios/soho_murales.mp3"
+      }
+    ]
+  }
+]
