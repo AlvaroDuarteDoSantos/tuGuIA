@@ -4,6 +4,7 @@
     "nombre": "Catedral de Málaga - La Manquita",
     "lat": 36.7201,
     "lng": -4.4203,
+    "imagen_url": "imagenes/catedral.jpg",
     "audio_intro_url": "audios/catedral_intro.mp3",
     "audios_extra": [
       {
@@ -25,6 +26,7 @@
     "nombre": "Alcazaba de Málaga",
     "lat": 36.7211,
     "lng": -4.4163,
+    "imagen_url": "imagenes/alcazaba_malaga.jpg",
     "audio_intro_url": "audios/alcazaba_intro.mp3",
     "audios_extra": [
       {
@@ -46,6 +48,7 @@
     "nombre": "Teatro Romano",
     "lat": 36.7216,
     "lng": -4.4170,
+    "imagen_url": "imagenes/teatro-romano-malaga.jpg",
     "audio_intro_url": "audios/teatro_intro.mp3",
     "audios_extra": [
       {
@@ -63,6 +66,7 @@
     "nombre": "Castillo de Gibralfaro",
     "lat": 36.7234,
     "lng": -4.4098,
+    "imagen_url": "imagenes/casatillo-gibralfaro.jpg",
     "audio_intro_url": "audios/gibralfaro_intro.mp3",
     "audios_extra": [
       {
@@ -80,6 +84,7 @@
     "nombre": "Plaza de Toros La Malagueta",
     "lat": 36.7191,
     "lng": -4.4101,
+    "imagen_url": "imagenes/plaza_toros.jpg",
     "audio_intro_url": "audios/plaza_toros_intro.mp3",
     "audios_extra": [
       {
@@ -97,6 +102,7 @@
     "nombre": "Mercado Central de Atarazanas",
     "lat": 36.7181,
     "lng": -4.4242,
+    "imagen_url": "imagenes/mercado_central.jpg",
     "audio_intro_url": "audios/mercado_intro.mp3",
     "audios_extra": [
       {
@@ -114,6 +120,7 @@
     "nombre": "Museo Picasso Málaga",
     "lat": 36.7213,
     "lng": -4.4185,
+    "imagen_url": "imagenes/museo_picasso.jpg",
     "audio_intro_url": "audios/museo_picasso_intro.mp3",
     "audios_extra": [
       {
@@ -135,6 +142,7 @@
     "nombre": "Casa Natal de Picasso",
     "lat": 36.7224,
     "lng": -4.4183,
+    "imagen_url": "imagenes/casa_natal_picasso.jpg",
     "audio_intro_url": "audios/casa_natal_intro.mp3",
     "audios_extra": [
       {
@@ -152,6 +160,7 @@
     "nombre": "Jardín Botánico La Concepción",
     "lat": 36.7629,
     "lng": -4.4297,
+    "imagen_url": "imagenes/jardin_botanico.jpg",
     "audio_intro_url": "audios/jardin_intro.mp3",
     "audios_extra": [
       {
@@ -169,6 +178,7 @@
     "nombre": "Puerto de Málaga - Muelle Uno",
     "lat": 36.7178,
     "lng": -4.4156,
+    "imagen_url": "imagenes/puerto_malaga.jpg",
     "audio_intro_url": "audios/puerto_intro.mp3",
     "audios_extra": [
       {
@@ -186,6 +196,7 @@
     "nombre": "Centre Pompidou Málaga",
     "lat": 36.7193,
     "lng": -4.4041,
+    "imagen_url": "imagenes/centre_pompidou.jpg",
     "audio_intro_url": "audios/pompidou_intro.mp3",
     "audios_extra": [
       {
@@ -203,6 +214,7 @@
     "nombre": "Museo Carmen Thyssen",
     "lat": 36.7212,
     "lng": -4.4230,
+    "imagen_url": "imagenes/museo_thyssen.jpg",
     "audio_intro_url": "audios/thyssen_intro.mp3",
     "audios_extra": [
       {
@@ -220,6 +232,7 @@
     "nombre": "Calle Marqués de Larios",
     "lat": 36.7187,
     "lng": -4.4211,
+    "imagen_url": "imagenes/calle_larios.jpg",
     "audio_intro_url": "audios/larios_intro.mp3",
     "audios_extra": [
       {
@@ -241,6 +254,7 @@
     "nombre": "Iglesia de Santiago",
     "lat": 36.7227,
     "lng": -4.4217,
+    "imagen_url": "imagenes/iglesia_santiago.jpg",
     "audio_intro_url": "audios/santiago_intro.mp3",
     "audios_extra": [
       {
@@ -258,6 +272,7 @@
     "nombre": "Parque de Málaga",
     "lat": 36.7196,
     "lng": -4.4123,
+    "imagen_url": "imagenes/parque_malaga.jpg",
     "audio_intro_url": "audios/parque_intro.mp3",
     "audios_extra": [
       {
@@ -275,6 +290,7 @@
     "nombre": "Palacio de la Aduana - Museo de Málaga",
     "lat": 36.7210,
     "lng": -4.4145,
+    "imagen_url": "imagenes/palacio_aduana.jpg",
     "audio_intro_url": "audios/aduana_intro.mp3",
     "audios_extra": [
       {
@@ -292,6 +308,7 @@
     "nombre": "Baños del Carmen",
     "lat": 36.7176,
     "lng": -4.3889,
+    "imagen_url": "imagenes/banos_carmen.jpg",
     "audio_intro_url": "audios/banos_carmen_intro.mp3",
     "audios_extra": [
       {
@@ -309,6 +326,7 @@
     "nombre": "Cementerio Inglés",
     "lat": 36.7145,
     "lng": -4.4282,
+    "imagen_url": "imagenes/cementerio_ingles.jpg",
     "audio_intro_url": "audios/cementerio_ingles_intro.mp3",
     "audios_extra": [
       {
@@ -326,6 +344,7 @@
     "nombre": "Museo Automovilístico",
     "lat": 36.6892,
     "lng": -4.4456,
+    "imagen_url": "imagenes/museo_automovilistico.jpg",
     "audio_intro_url": "audios/museo_autos_intro.mp3",
     "audios_extra": [
       {
@@ -343,6 +362,7 @@
     "nombre": "Barrio del Soho - Arte Urbano",
     "lat": 36.7152,
     "lng": -4.4254,
+    "imagen_url": "imagenes/soho_malaga.jpg",
     "audio_intro_url": "audios/soho_intro.mp3",
     "audios_extra": [
       {
